@@ -5,150 +5,82 @@
 }
 
 body {
+  font-family: 'Segoe UI', sans-serif;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Segoe UI', sans-serif;
-  background: radial-gradient(circle at top, #0f2027, #203a43, #2c5364);
+  background: linear-gradient(135deg, #667eea, #764ba2);
 }
 
-/* ===== CALENDAR ===== */
+/* Calendar container */
 .calendar {
-  width: 360px;
-  padding: 20px;
-  border-radius: 25px;
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(20px);
-  box-shadow: 0 0 30px rgba(0,0,0,0.6);
-  position: relative;
+  width: 340px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
   overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  color: white;
 }
 
-/* Animated glowing border */
-.calendar::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 25px;
-  padding: 2px;
-  background: linear-gradient(45deg, #00f2ff, #ff00ff, #00ffcc, #ff00ff);
-  background-size: 300% 300%;
-  animation: borderMove 6s linear infinite;
-  -webkit-mask: 
-    linear-gradient(#000 0 0) content-box, 
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-          mask-composite: exclude;
-}
-
-@keyframes borderMove {
-  0% { background-position: 0% }
-  100% { background-position: 300% }
-}
-
-/* ===== HEADER ===== */
+/* Header */
 .header {
   text-align: center;
-  margin-bottom: 15px;
+  padding: 20px;
+  background: rgba(0,0,0,0.2);
 }
 
 .header h1 {
-  color: white;
-  font-size: 24px;
-  letter-spacing: 2px;
-  animation: glowText 2s infinite alternate;
+  font-size: 22px;
 }
 
-@keyframes glowText {
-  from { text-shadow: 0 0 5px #fff; }
-  to { text-shadow: 0 0 20px #00f2ff, 0 0 30px #00f2ff; }
+.header p {
+  font-size: 12px;
+  opacity: 0.7;
 }
 
-/* ===== WEEKDAYS ===== */
+/* Weekdays */
 .weekdays {
   display: grid;
-  grid-template-columns: repeat(7,1fr);
-  color: #aaa;
+  grid-template-columns: repeat(7, 1fr);
   text-align: center;
-  font-size: 12px;
-  margin-bottom: 10px;
+  padding: 10px;
+  font-size: 13px;
+  opacity: 0.8;
 }
 
-/* ===== DAYS ===== */
+/* Days */
 .days {
   display: grid;
-  grid-template-columns: repeat(7,1fr);
-  gap: 8px;
+  grid-template-columns: repeat(7, 1fr);
+  padding: 10px;
 }
 
-.day {
-  height: 45px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 12px;
-  color: white;
-  cursor: pointer;
-  position: relative;
+/* Each day */
+.days div {
+  margin: 5px;
+  padding: 12px;
+  text-align: center;
+  border-radius: 10px;
   transition: 0.3s;
+  cursor: pointer;
 }
 
-/* Floating animation */
-.day {
-  animation: float 4s ease-in-out infinite;
+/* Empty spaces */
+.empty {
+  pointer-events: none;
 }
 
-.day:nth-child(odd) {
-  animation-delay: 0.5s;
-}
-
-@keyframes float {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
-}
-
-/* Hover neon glow */
-.day:hover {
-  transform: scale(1.2);
-  background: rgba(255,255,255,0.1);
-  box-shadow: 0 0 10px #00f2ff,
-              0 0 20px #00f2ff,
-              0 0 30px #00f2ff;
+/* Hover effect */
+.days div:hover {
+  background: rgba(255,255,255,0.2);
+  transform: scale(1.1);
 }
 
 /* Today highlight */
 .today {
-  background: linear-gradient(135deg, #ff416c, #ff4b2b);
-  box-shadow: 0 0 15px #ff4b2b,
-              0 0 30px #ff416c;
-  animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-  0% { box-shadow: 0 0 10px #ff4b2b; }
-  50% { box-shadow: 0 0 30px #ff416c; }
-  100% { box-shadow: 0 0 10px #ff4b2b; }
-}
-
-/* Click effect */
-.day:active {
-  transform: scale(0.9);
-}
-
-/* Event glow dot */
-.day::after {
-  content: "";
-  width: 6px;
-  height: 6px;
-  background: #00ffcc;
-  border-radius: 50%;
-  position: absolute;
-  bottom: 5px;
-  opacity: 0;
-}
-
-.day.event::after {
-  opacity: 1;
-  box-shadow: 0 0 10px #00ffcc;
+  background: #ff4b5c;
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(255,75,92,0.8);
 }
