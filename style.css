@@ -1,81 +1,154 @@
-/* ===== GLOWING ANIMATIONS ===== */
-
-/* Glow animation keyframes */
-@keyframes glowPulse {
-  0% {
-    box-shadow: 0 0 5px rgba(255,255,255,0.3),
-                0 0 10px rgba(255,255,255,0.2);
-  }
-  50% {
-    box-shadow: 0 0 15px rgba(255,255,255,0.8),
-                0 0 30px rgba(255,255,255,0.5);
-  }
-  100% {
-    box-shadow: 0 0 5px rgba(255,255,255,0.3),
-                0 0 10px rgba(255,255,255,0.2);
-  }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Header glowing text */
-.header h1 {
-  animation: glowPulse 3s infinite;
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Segoe UI', sans-serif;
+  background: radial-gradient(circle at top, #0f2027, #203a43, #2c5364);
 }
 
-/* Today glowing (mas intense) */
-.today {
-  background: linear-gradient(135deg, #ff4b5c, #ff7a18);
-  font-weight: bold;
-  animation: glowPulse 2s infinite;
-}
-
-/* Hover glow per day */
-.days div:hover {
-  background: rgba(255,255,255,0.25);
-  transform: scale(1.15);
-  box-shadow: 0 0 10px #fff,
-              0 0 20px #00f2ff,
-              0 0 30px #00f2ff;
-}
-
-/* Selected day glow */
-.selected {
-  border: 2px solid #fff;
-  animation: glowPulse 1.5s infinite;
-}
-
-/* Event dot glow */
-.days div.has-event::after {
-  opacity: 1;
-  background: #00ffcc;
-  box-shadow: 0 0 8px #00ffcc,
-              0 0 15px #00ffcc;
-}
-
-/* Calendar border glow */
+/* ===== CALENDAR ===== */
 .calendar {
+  width: 360px;
+  padding: 20px;
+  border-radius: 25px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 30px rgba(0,0,0,0.6);
   position: relative;
+  overflow: hidden;
 }
 
+/* Animated glowing border */
 .calendar::before {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: 25px;
   padding: 2px;
-  background: linear-gradient(45deg, #00f2ff, #ff00ff, #00ffcc);
+  background: linear-gradient(45deg, #00f2ff, #ff00ff, #00ffcc, #ff00ff);
+  background-size: 300% 300%;
+  animation: borderMove 6s linear infinite;
   -webkit-mask: 
     linear-gradient(#000 0 0) content-box, 
     linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
           mask-composite: exclude;
-  animation: borderGlow 4s linear infinite;
 }
 
-@keyframes borderGlow {
-  0% {
-    filter: hue-rotate(0deg);
-  }
-  100% {
-    filter: hue-rotate(360deg);
-  }
+@keyframes borderMove {
+  0% { background-position: 0% }
+  100% { background-position: 300% }
+}
+
+/* ===== HEADER ===== */
+.header {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.header h1 {
+  color: white;
+  font-size: 24px;
+  letter-spacing: 2px;
+  animation: glowText 2s infinite alternate;
+}
+
+@keyframes glowText {
+  from { text-shadow: 0 0 5px #fff; }
+  to { text-shadow: 0 0 20px #00f2ff, 0 0 30px #00f2ff; }
+}
+
+/* ===== WEEKDAYS ===== */
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7,1fr);
+  color: #aaa;
+  text-align: center;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+/* ===== DAYS ===== */
+.days {
+  display: grid;
+  grid-template-columns: repeat(7,1fr);
+  gap: 8px;
+}
+
+.day {
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  color: white;
+  cursor: pointer;
+  position: relative;
+  transition: 0.3s;
+}
+
+/* Floating animation */
+.day {
+  animation: float 4s ease-in-out infinite;
+}
+
+.day:nth-child(odd) {
+  animation-delay: 0.5s;
+}
+
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Hover neon glow */
+.day:hover {
+  transform: scale(1.2);
+  background: rgba(255,255,255,0.1);
+  box-shadow: 0 0 10px #00f2ff,
+              0 0 20px #00f2ff,
+              0 0 30px #00f2ff;
+}
+
+/* Today highlight */
+.today {
+  background: linear-gradient(135deg, #ff416c, #ff4b2b);
+  box-shadow: 0 0 15px #ff4b2b,
+              0 0 30px #ff416c;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 10px #ff4b2b; }
+  50% { box-shadow: 0 0 30px #ff416c; }
+  100% { box-shadow: 0 0 10px #ff4b2b; }
+}
+
+/* Click effect */
+.day:active {
+  transform: scale(0.9);
+}
+
+/* Event glow dot */
+.day::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  background: #00ffcc;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 5px;
+  opacity: 0;
+}
+
+.day.event::after {
+  opacity: 1;
+  box-shadow: 0 0 10px #00ffcc;
 }
